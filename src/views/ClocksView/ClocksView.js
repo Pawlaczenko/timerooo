@@ -1,7 +1,10 @@
 import React from 'react';
+import TimeLabel from '../../components/TimeLabel/TimeLabel';
+
+const times = [12, 33, 44];
 
 const ClocksView = () => (
-    <h2>ClocksView</h2>
+    <TimeLabel times={times} />
 );
 
 export default ClocksView;
