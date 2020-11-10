@@ -1,7 +1,8 @@
 import React from 'react';
+import Stopwatch from '../../components/Stopwatch/Stopwatch';
 
 const StopwatchsView = () => (
-    <h2>StopwatchsView</h2>
+    <Stopwatch />
 );
 
 export default StopwatchsView;
