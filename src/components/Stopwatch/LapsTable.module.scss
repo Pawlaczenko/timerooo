@@ -1,13 +1,34 @@
 .wrapper {
-    width: 90%;
+    flex-grow: 1;
+  
+    overflow: auto;
+    
+    /* for Firefox */
+    min-height: 0;
+    // display: inline-block;
+    width: 50%;
+    margin-top: 25px;
+}
+
+.table {
+    // width: 90%;
     font-size: 21px;
     color: white;
+    // flex: 1;
+    width: 100%;
+    border-spacing: 0 10px;
 }
 
 .header {
-    color: rgba(#FFF,.5);
+    color: rgba(white,1);
+    background-color: rgba(#6DECA0,.8);
+}
+
+tr.fastest {
+    color: #6Deca0;
 }
 
 td {
     text-align: center;
+
 }

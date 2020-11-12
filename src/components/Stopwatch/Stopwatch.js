@@ -2,6 +2,7 @@ import React from 'react';
 import TimeLabel from '../TimeLabel/TimeLabel';
 import Button from '../Button/Button';
 import LapsTable from './LapsTable';
+import styles from './Stopwatch.module.scss';
 
 let intervalId = '';
 
@@ -44,7 +45,7 @@ class Stopwatch extends React.Component {
     count = () => {
         if (!this.state.isPaused) {
             let newTime = [...this.state.time];
-            let newLap = (this.state.laps.length > 0) ? [...this.state.lapTime] : newTime;
+            let newLap = (this.state.laps.length > 0) ? [...this.state.lapTime] : [...this.state.time];
             newTime[2] += 1;
             newLap[2] += 1;
 
@@ -55,14 +56,6 @@ class Stopwatch extends React.Component {
                 time: newTime,
                 lapTime: newLap
             });
-            // let newTime = (this.state.time[0] * 6000) + (this.state.time[1] * 100) + this.state.time[2];
-            // newTime++;
-            // let minutes = Math.floor(newTime / 6000);
-            // let seconds = Math.floor((newTime % 6000) / 100);
-            // let ms = Math.floor((newTime % 6000) - (seconds * 100));
-            // this.setState({
-            //     time: [minutes, seconds, ms]
-            // });
         }
     }
 
@@ -82,6 +75,7 @@ class Stopwatch extends React.Component {
         clearInterval(intervalId);
         this.setState({
             time: [0, 0, 0],
+            lapTime: [0, 0, 0],
             isStarted: false,
             isPaused: true,
             laps: [],
@@ -101,10 +95,16 @@ class Stopwatch extends React.Component {
     }
 
     render() {
+        const lapCount = this.state.laps.length;
         return (
             <>
-                <TimeLabel times={this.state.time} role="show" />
-                {this.state.laps.length > 0 && <LapsTable laps={this.state.laps} />}
+                <TimeLabel times={this.state.time} role="show" centered={(lapCount === 0)} />
+                {lapCount > 0 &&
+                    <>
+                        <TimeLabel times={this.state.lapTime} role="lap" />
+                        <LapsTable laps={this.state.laps} />
+                    </>
+                }
 
                 <div>
                     {!this.state.isStarted && <Button color="lime" handleClick={this.startStopwatch}>Start</Button>}

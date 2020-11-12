@@ -2,22 +2,36 @@
     font-size: 185px;
     color: white;
     text-align: center;
-    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+
+    .bold {
+        font-weight: 700;
+    }
+    
+    .thin {
+        font-weight: 300;
+        color: #6DECA0;
+    }
+
+    &.centered {
+        flex: 1;
+    }
 }
 
 .table {
     color: white;
     font-size: 21px;
     text-align: center;
-}
-
-.bold {
-    font-weight: 700;
-}
-
-.thin {
+    width: 100%;
     font-weight: 300;
-    color: #6DECA0;
+}
+
+
+
+.lap {
+    font-size: 50px;
+    color: rgba(#fff,.5);
 }
