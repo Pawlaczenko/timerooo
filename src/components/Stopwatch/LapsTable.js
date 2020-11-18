@@ -2,9 +2,13 @@ import React from 'react';
 import styles from './LapsTable.module.scss';
 import TimeLabel from '../TimeLabel/TimeLabel';
 
-const LapsTable = ({ laps }) => {
+const getFastestLap = (laps) => {
+    // console.log(laps);
+}
 
+const LapsTable = ({ laps }) => {
     const revLaps = laps.slice(0).reverse();
+    getFastestLap(revLaps);
 
     return (
         <div className={styles.wrapper}>
@@ -32,4 +36,8 @@ const LapsTable = ({ laps }) => {
     );
 };
 
-export default LapsTable;
+function areEqual(prevProps, nextProps) {
+    return prevProps.laps.length === nextProps.laps.length;
+}
+
+export default React.memo(LapsTable, areEqual);

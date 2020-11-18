@@ -2,9 +2,7 @@ import React from 'react';
 import TimeLabel from '../TimeLabel/TimeLabel';
 import Button from '../Button/Button';
 import LapsTable from './LapsTable';
-import styles from './Stopwatch.module.scss';
-
-let intervalId = '';
+// import styles from './Stopwatch.module.scss';
 
 class Stopwatch extends React.Component {
     state = {
@@ -16,11 +14,12 @@ class Stopwatch extends React.Component {
     }
 
     componentWillUnmount = () => {
-        clearInterval(intervalId);
+        clearInterval(this.stopwatchId);
     }
 
+
     startStopwatch = () => {
-        intervalId = setInterval(this.count, 10);
+        this.stopwatchId = setInterval(this.count, 10);
 
         this.setState({
             isStarted: true,
@@ -45,7 +44,7 @@ class Stopwatch extends React.Component {
     count = () => {
         if (!this.state.isPaused) {
             let newTime = [...this.state.time];
-            let newLap = (this.state.laps.length > 0) ? [...this.state.lapTime] : [...this.state.time];
+            let newLap = [...this.state.lapTime];
             newTime[2] += 1;
             newLap[2] += 1;
 
@@ -62,24 +61,24 @@ class Stopwatch extends React.Component {
     pause = () => {
         this.setState({
             isPaused: true
-        })
+        });
     }
 
     resume = () => {
         this.setState({
             isPaused: false
-        })
+        });
     }
 
     reset = () => {
-        clearInterval(intervalId);
+        clearInterval(this.stopwatchId);
         this.setState({
             time: [0, 0, 0],
             lapTime: [0, 0, 0],
             isStarted: false,
             isPaused: true,
             laps: [],
-        })
+        });
     }
 
     lap = () => {
@@ -94,14 +93,21 @@ class Stopwatch extends React.Component {
         }))
     }
 
+    // const this.state.laps.length = this.state.laps.length;
     render() {
-        const lapCount = this.state.laps.length;
         return (
             <>
-                <TimeLabel times={this.state.time} role="show" centered={(lapCount === 0)} />
-                {lapCount > 0 &&
+                <TimeLabel
+                    times={this.state.time}
+                    role="show"
+                    centered={(this.state.laps.length === 0)}
+                />
+                {this.state.laps.length > 0 &&
                     <>
-                        <TimeLabel times={this.state.lapTime} role="lap" />
+                        <TimeLabel
+                            times={this.state.lapTime}
+                            role="lap"
+                        />
                         <LapsTable laps={this.state.laps} />
                     </>
                 }
