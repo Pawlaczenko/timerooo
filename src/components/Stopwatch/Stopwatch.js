@@ -93,16 +93,16 @@ class Stopwatch extends React.Component {
         }))
     }
 
-    // const this.state.laps.length = this.state.laps.length;
     render() {
+        const lapsQnt = this.state.laps.length;
         return (
             <>
                 <TimeLabel
                     times={this.state.time}
                     role="show"
-                    centered={(this.state.laps.length === 0)}
+                    centered={(lapsQnt === 0)}
                 />
-                {this.state.laps.length > 0 &&
+                {lapsQnt > 0 &&
                     <>
                         <TimeLabel
                             times={this.state.lapTime}

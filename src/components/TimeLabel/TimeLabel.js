@@ -13,4 +13,4 @@ const TimeLabel = ({ times, role, centered }) => {
 
 };
 
-export default TimeLabel;
+export default React.memo(TimeLabel);

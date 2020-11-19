@@ -17,6 +17,7 @@
     // flex: 1;
     width: 100%;
     border-spacing: 0 10px;
+    position: relative;
 }
 
 .header {
@@ -26,6 +27,27 @@
 
 tr.fastest {
     color: #6Deca0;
+    position: relative;
+    
+    &:after {
+        content: "F";
+    }
+}
+
+tr.slowest {
+    color: rgb(216, 64, 64);
+
+    &:after {
+        content: "S";
+    }
+}
+
+tr.slowest:after,
+tr.fastest:after {
+    display: block;
+    position: absolute;
+    left: 20px;
+    text-align: center;
 }
 
 td {
