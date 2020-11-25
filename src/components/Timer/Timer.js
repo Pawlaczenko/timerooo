@@ -22,11 +22,68 @@ class Timer extends React.Component {
         });
 
         this.setState({
-            setTime: [...values]
+            setTime: [...values],
+            time: [...values]
         });
 
         const contextValue = this.context;
         contextValue.closeModal();
+    }
+
+    formatTime = (time) => {
+        if (time[2] < 0) {
+            time[2] = 59;
+            time[1]--;
+        }
+
+        if (time[1] < 0) {
+            time[1] = 59;
+            time[0]--;
+        }
+
+        return time;
+    }
+
+    startTimer = () => {
+        this.setState({
+            isStarted: true,
+            isPaused: false
+        });
+        this.intervalId = setInterval(this.count, 1000);
+    }
+
+    count = () => {
+        if (!this.state.isPaused) {
+            let newTime = [...this.state.time];
+            newTime[2] -= 1;
+
+            newTime = this.formatTime(newTime);
+
+            this.setState({
+                time: newTime,
+            });
+        }
+    }
+
+    pause = () => {
+        this.setState({
+            isPaused: true
+        });
+    }
+
+    reset = () => {
+        clearInterval(this.intervalId);
+        this.setState({
+            time: [...this.state.setTime],
+            isStarted: false,
+            isPaused: null
+        });
+    }
+
+    resume = () => {
+        this.setState({
+            isPaused: false
+        });
     }
 
     checkTimer = () => this.state.setTime.every(e => e === 0);
@@ -35,7 +92,7 @@ class Timer extends React.Component {
         return (
             <>
                 <TimeLabel
-                    times={this.state.setTime}
+                    times={this.state.time}
                     role="show"
                     centered={true}
                 />
@@ -48,11 +105,20 @@ class Timer extends React.Component {
                                 </Modal>
                             }
                             <div>
-                                {!this.checkTimer() &&
-                                    <Button color="lime">Start</Button>
+                                {!this.state.isStarted && !this.checkTimer() &&
+                                    <Button handleClick={this.startTimer} color="lime">Start</Button>
                                 }
                                 {!this.state.isStarted &&
                                     <Button handleClick={context.openModal} color="orange">Set Timer</Button>
+                                }
+                                {this.state.isStarted &&
+                                    <Button handleClick={this.reset} color="red">Reset</Button>
+                                }
+                                {this.state.isStarted && !this.state.isPaused &&
+                                    <Button handleClick={this.pause} color="orange">Pause</Button>
+                                }
+                                {this.state.isStarted && this.state.isPaused &&
+                                    <Button handleClick={this.resume} color="lime">Resume</Button>
                                 }
                             </div>
                         </>
