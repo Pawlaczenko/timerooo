@@ -4,14 +4,21 @@ import Button from './../Button/Button';
 import Modal from './../Modal/Modal';
 import MyContext from '../../context';
 import TimerForm from './TimerForm';
+import TimerBar from './TimerBar';
 // import styles from './Timer.module.scss';
 
 class Timer extends React.Component {
     state = {
         time: [0, 0, 0],
         setTime: [0, 0, 0],
+        setTimeS: 0,
         isStarted: false,
-        isPaused: null
+        isPaused: null,
+        progress: 1
+    }
+
+    countSeconds = (time) => {
+        return time[0] * 3600 + time[1] * 60 + time[2];
     }
 
     setTimer = (e) => {
@@ -23,7 +30,8 @@ class Timer extends React.Component {
 
         this.setState({
             setTime: [...values],
-            time: [...values]
+            time: [...values],
+            setTimeS: this.countSeconds([...values])
         });
 
         const contextValue = this.context;
@@ -58,9 +66,11 @@ class Timer extends React.Component {
             newTime[2] -= 1;
 
             newTime = this.formatTime(newTime);
+            const progress = this.countSeconds(newTime) / this.state.setTimeS;
 
             this.setState({
                 time: newTime,
+                progress
             });
         }
     }
@@ -76,7 +86,8 @@ class Timer extends React.Component {
         this.setState({
             time: [...this.state.setTime],
             isStarted: false,
-            isPaused: null
+            isPaused: null,
+            progress: 1
         });
     }
 
@@ -91,11 +102,15 @@ class Timer extends React.Component {
     render() {
         return (
             <>
+                {this.state.isStarted &&
+                    <TimerBar width={this.state.progress} />
+                }
                 <TimeLabel
                     times={this.state.time}
                     role="show"
                     centered={true}
                 />
+
                 <MyContext.Consumer>
                     {(context) => (
                         <>
