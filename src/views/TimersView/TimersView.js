@@ -1,7 +1,8 @@
 import React from 'react';
+import Timer from '../../components/Timer/Timer';
 
 const TimersView = () => (
-    <h2>TimersView</h2>
+    <Timer />
 );
 
 export default TimersView;
