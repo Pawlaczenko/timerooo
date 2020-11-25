@@ -1,0 +1,50 @@
+.form {
+    margin: auto;
+    text-align: center;
+    min-width: 70%;
+    max-width: 85%;
+    font-size: 75px;
+
+    &Setter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: auto;
+    }
+
+    &Label{
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+    }
+
+    &Input{
+        border: none;
+        width: 100%;
+        font-size: 75px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &Button {
+        padding: 5px 25px;
+        background-color: #FFC857;
+        color: white;
+        border: none;
+        font-size: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        border: 2px solid white;
+
+        &:hover {
+            border-color: #FFC857;
+            color: #FFC857;
+            background-color: white;
+        }
+    }
+}

@@ -3,7 +3,8 @@ import TimeLabel from '../TimeLabel/TimeLabel';
 import Button from './../Button/Button';
 import Modal from './../Modal/Modal';
 import MyContext from '../../context';
-import styles from './Timer.module.scss';
+import TimerForm from './TimerForm';
+// import styles from './Timer.module.scss';
 
 class Timer extends React.Component {
     state = {
@@ -15,8 +16,20 @@ class Timer extends React.Component {
 
     setTimer = (e) => {
         e.preventDefault();
-        console.log(e.target);
+        const values = [...e.target.getElementsByTagName('input')];
+        values.forEach((item, index, array) => {
+            array[index] = (isNaN(item.valueAsNumber)) ? 0 : item.valueAsNumber;
+        });
+
+        this.setState({
+            setTime: [...values]
+        });
+
+        const contextValue = this.context;
+        contextValue.closeModal();
     }
+
+    checkTimer = () => this.state.setTime.every(e => e === 0);
 
     render() {
         return (
@@ -31,27 +44,16 @@ class Timer extends React.Component {
                         <>
                             {context.state.isOpen &&
                                 <Modal header="Set timer">
-                                    <form className={styles.form}>
-                                        <div className={styles.formSetter}>
-                                            <label className={styles.formLabel}>
-                                                hours
-                                                <input type="number" name="hours" placeholder="00" className={styles.formInput} min="0" max="99" />
-                                            </label>:
-                                            <label className={styles.formLabel}>
-                                                minutes
-                                                <input type="number" name="minutes" placeholder="00" className={styles.formInput} min="0" max="59" />
-                                            </label>.
-                                            <label className={styles.formLabel}>
-                                                seconds
-                                                <input type="number" name="seconds" placeholder="00" className={styles.formInput} min="0" max="59" />
-                                            </label>
-                                        </div>
-                                        <button className={styles.formButton}>submit</button>
-                                    </form>
+                                    <TimerForm values={this.state.setTime} handleSubmit={this.setTimer} />
                                 </Modal>
                             }
                             <div>
-                                {!this.state.isStarted && <Button handleClick={context.openModal} color="orange">Set Timer</Button>}
+                                {!this.checkTimer() &&
+                                    <Button color="lime">Start</Button>
+                                }
+                                {!this.state.isStarted &&
+                                    <Button handleClick={context.openModal} color="orange">Set Timer</Button>
+                                }
                             </div>
                         </>
                     )}
@@ -61,5 +63,7 @@ class Timer extends React.Component {
         );
     }
 }
+
+Timer.contextType = MyContext;
 
 export default Timer;
