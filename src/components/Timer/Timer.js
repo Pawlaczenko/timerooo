@@ -6,6 +6,7 @@ import MyContext from '../../context';
 import TimerForm from './TimerForm';
 import TimerBar from './TimerBar';
 import styles from './Timer.module.scss';
+import alarm from './../../assets/alarm.svg';
 
 class Timer extends React.Component {
     state = {
@@ -57,7 +58,7 @@ class Timer extends React.Component {
         clearInterval(this.intervalId);
         this.setState({
             isEnded: true,
-        })
+        });
     }
 
     startTimer = () => {
@@ -124,7 +125,7 @@ class Timer extends React.Component {
                     centered={true}
                     pulsing={this.state.isEnded}
                 />
-
+                {this.state.isEnded && <img className={styles.alarm} src={alarm} />}
                 <MyContext.Consumer>
                     {(context) => (
                         <>

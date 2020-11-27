@@ -38,7 +38,7 @@ class Root extends React.Component {
 
         return (
             <BrowserRouter>
-                <img src={logo} alt="timerooo logo" />
+                <img className="logo" src={logo} alt="timerooo logo" />
                 <MyContext.Provider value={contextValue}>
                     <Switch>
                         <Route exact path="/" component={ClocksView} />

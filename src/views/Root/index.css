@@ -46,7 +46,7 @@ body {
     justify-content: space-evenly;    */
 }
 
-img {
+.logo {
     margin: 35px 40px;
     width: 140px;
     position: absolute;
