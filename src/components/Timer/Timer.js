@@ -5,7 +5,7 @@ import Modal from './../Modal/Modal';
 import MyContext from '../../context';
 import TimerForm from './TimerForm';
 import TimerBar from './TimerBar';
-// import styles from './Timer.module.scss';
+import styles from './Timer.module.scss';
 
 class Timer extends React.Component {
     state = {
@@ -14,7 +14,8 @@ class Timer extends React.Component {
         setTimeS: 0,
         isStarted: false,
         isPaused: null,
-        progress: 1
+        isEnded: false,
+        progress: 1,
     }
 
     countSeconds = (time) => {
@@ -52,6 +53,13 @@ class Timer extends React.Component {
         return time;
     }
 
+    timerOut = () => {
+        clearInterval(this.intervalId);
+        this.setState({
+            isEnded: true,
+        })
+    }
+
     startTimer = () => {
         this.setState({
             isStarted: true,
@@ -62,6 +70,10 @@ class Timer extends React.Component {
 
     count = () => {
         if (!this.state.isPaused) {
+            if (this.checkTimer(this.state.time)) {
+                this.timerOut();
+                return;
+            }
             let newTime = [...this.state.time];
             newTime[2] -= 1;
 
@@ -87,7 +99,8 @@ class Timer extends React.Component {
             time: [...this.state.setTime],
             isStarted: false,
             isPaused: null,
-            progress: 1
+            progress: 1,
+            isEnded: false
         });
     }
 
@@ -97,7 +110,7 @@ class Timer extends React.Component {
         });
     }
 
-    checkTimer = () => this.state.setTime.every(e => e === 0);
+    checkTimer = (time) => time.every(e => e === 0);
 
     render() {
         return (
@@ -109,6 +122,7 @@ class Timer extends React.Component {
                     times={this.state.time}
                     role="show"
                     centered={true}
+                    pulsing={this.state.isEnded}
                 />
 
                 <MyContext.Consumer>
@@ -120,7 +134,7 @@ class Timer extends React.Component {
                                 </Modal>
                             }
                             <div>
-                                {!this.state.isStarted && !this.checkTimer() &&
+                                {!this.state.isStarted && !this.checkTimer(this.state.setTime) &&
                                     <Button handleClick={this.startTimer} color="lime">Start</Button>
                                 }
                                 {!this.state.isStarted &&
@@ -129,7 +143,7 @@ class Timer extends React.Component {
                                 {this.state.isStarted &&
                                     <Button handleClick={this.reset} color="red">Reset</Button>
                                 }
-                                {this.state.isStarted && !this.state.isPaused &&
+                                {this.state.isStarted && !this.state.isPaused && !this.state.isEnded &&
                                     <Button handleClick={this.pause} color="orange">Pause</Button>
                                 }
                                 {this.state.isStarted && this.state.isPaused &&

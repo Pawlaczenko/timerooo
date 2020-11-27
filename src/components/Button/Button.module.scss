@@ -19,12 +19,22 @@
     }
 }
 
+.secondary {
+    // color: black;
+}
+
 .lime{
     border: 3px solid #6deca0;
+    &.secondary{
+        background-color: #6deca0;
+    }
 }
 
 .red {
     border: 3px solid #DB3A34;
+    &.secondary{
+        background-color: #DB3A34;
+    }
 }
 
 .orange{
